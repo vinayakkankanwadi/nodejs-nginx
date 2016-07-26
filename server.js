@@ -1,12 +1,13 @@
 var http = require('http');
-http.createServer(function(req, res) {
-  console.log("Request from Nginx on 9001")
-  res.writeHead(200);
-  res.end("Node behind Nginx on 9001");
-}).listen(9001, "127.0.0.1");
 
-http.createServer(function(req, res) {
-  console.log("Request from Nginx on 9002")
-  res.writeHead(200);
-  res.end("Node behind Nginx on 9002");
-}).listen(9002, "127.0.0.1");
+function serve(ip, port)
+{
+        http.createServer(function (req, res) {
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end("NodeJS running behind nginx "+ip+":"+port+"\n");
+        }).listen(port, ip);
+        console.log('Server running at http://'+ip+':'+port+'/');
+}
+
+serve('127.0.0.1', 9001);
+serve('127.0.0.1', 9002);
